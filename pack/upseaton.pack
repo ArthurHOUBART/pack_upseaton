@@ -1,0 +1,7 @@
+{
+"name":"upseaton",
+"description":"UPS Eaton/MGE checks. Checks are done by check_snmp_mgeeaton_ups.pl (nagios plugin)",
+"macros":{
+         
+         }
+}
