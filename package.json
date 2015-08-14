@@ -1,0 +1,25 @@
+{
+ "name": "upseaton",
+ "types": ["pack"],
+ "version": "1.0",
+ "homepage": "https://github.com/ArthurHOUBART/pack_upseaton ",
+ "repository": "https://github.com/ArthurHOUBART/pack_upseaton ",
+ "author": "Arthur HOUBART",
+ "description": "UPS Eaton/MGE check",
+ "contributors": [
+    {
+       "name": "Arthur HOUBART",
+       "email": "info@houbart-informatic.be"
+    }
+ ],
+ "keywords": [
+    "pack",
+    "UPS",
+    "MGE",
+    "Eaton"
+ ],
+ "dependencies": {
+    "shinken": ">=1.4"
+ },
+ "license": "AGPL"
+}
