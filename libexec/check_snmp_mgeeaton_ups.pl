@@ -13,6 +13,12 @@
 #    
 #    Help : ./ check_snmp_mgeeaton_ups.pl -h
 #
+# 2016-07-20 : Added performance data output for 
+#   - Battery remaining time
+#   - Battery level
+#   - Battery voltage
+#   - Output load
+#   - Output load per phase
 
 use strict;
 use Net::SNMP;
@@ -627,7 +633,7 @@ sub battery_remaining_time {
     my $minute = int(($upsmgBatteryRemainingTime - ($heure * 3600)) / 60);
     my $seconde = $upsmgBatteryRemainingTime - ($heure * 3600) - ($minute * 60);
 
-    $returnstring = sprintf "Remaining time : %dh%02dm%02ds", $heure, $minute, $seconde;
+    $returnstring = sprintf "Remaining time : %dh%02dm%02ds | battery_remaining_time_mn=%f", $heure, $minute, $seconde, $upsmgBatteryRemainingTime / 60.;
 }
 
 
@@ -669,7 +675,7 @@ sub battery_level {
 
     if (((3 * $upsmgConfigLowBatteryLevel) / 2) >= $upsmgBatteryLevel) { $status = 1; }
     if ($upsmgConfigLowBatteryLevel >= $upsmgBatteryLevel) { $status = 2; }
-    $returnstring = "Battery level : $upsmgBatteryLevel %";
+    $returnstring = "Battery level : $upsmgBatteryLevel % | ups_battery_level=$upsmgBatteryLevel";
 }
 
 
@@ -703,7 +709,7 @@ sub battery_voltage_test {
     verb("upsmgBatteryVoltage OID response : $upsmgBatteryVoltage");
 
     $upsmgBatteryVoltage = $upsmgBatteryVoltage /10;
-    $returnstring = "Battery voltage : $upsmgBatteryVoltage V";
+    $returnstring = "Battery voltage : $upsmgBatteryVoltage V | battery_voltage_V=$upsmgBatteryVoltage";
 }
 
 
@@ -1306,7 +1312,7 @@ sub output_load {
         $upsmgAgentFirmwareVersion eq "EC" or 
         $upsmgAgentFirmwareVersion eq "EE" or
         $upsmgIdentFamilyName eq "Protection Station") {
-        $returnstring = "Output load per phase : $upsmgOutputLoadPerPhase1 %";
+        $returnstring = "Output load per phase : $upsmgOutputLoadPerPhase1 % | output_load_%=$upsmgOutputLoadPerPhase1";
     }
     else {
 
@@ -1344,7 +1350,7 @@ sub output_load {
         }
         verb("upsmgOutputLoadPerPhase3 OID response : $upsmgOutputLoadPerPhase3");
 
-        $returnstring = "Output load per phase - phase 1 : $upsmgOutputLoadPerPhase1 %, phase 2 : $upsmgOutputLoadPerPhase2 %, phase 3 : $upsmgOutputLoadPerPhase3 %";
+        $returnstring = "Output load per phase - phase 1 : $upsmgOutputLoadPerPhase1 %, phase 2 : $upsmgOutputLoadPerPhase2 %, phase 3 : $upsmgOutputLoadPerPhase3 % | output_load_phase1_%=$upsmgOutputLoadPerPhase1, output_load_phase2_%=$upsmgOutputLoadPerPhase2, output_load_phase3_%=$upsmgOutputLoadPerPhase3" ;
     }
 }
 
